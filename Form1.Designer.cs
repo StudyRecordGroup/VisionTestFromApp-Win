@@ -109,7 +109,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 772);
             this.Controls.Add(this.pictureBox_Pic);
             this.Controls.Add(this.button_Save);
             this.Controls.Add(this.button_Grab);
@@ -118,9 +117,7 @@
             this.Controls.Add(this.button_Start);
             this.Controls.Add(this.pictureBox_Cam);
             this.Name = "Form1";
-            this.Text = "Form1";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Size = new System.Drawing.Size(635, 772);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Cam)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Pic)).EndInit();
             this.ResumeLayout(false);

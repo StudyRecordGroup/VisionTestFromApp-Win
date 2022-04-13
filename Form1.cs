@@ -11,36 +11,32 @@ using System.Windows.Forms;
 using AForge;
 using AForge.Video.DirectShow;
 using AForge.Video;
+using System.Threading;
 
 namespace WindowsFormsApp1
 {
-    public partial class Form1 : Form
+    public partial class Form1 : UserControl
     {
         FilterInfoCollection filterInfoCollection;
         VideoCaptureDevice videoCaptureDevice;
         Bitmap image_Camera;
         Bitmap image_GrabPic;
 
-        public Form1()
+        public Form1(CancellationToken cancelByUser)
         {
             InitializeComponent();
+            this.Dock = DockStyle.Fill;
             pictureBox_Cam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             pictureBox_Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-        }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
             filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             foreach (FilterInfo filterInfo in filterInfoCollection)
                 combobox_CamList.Items.Add(filterInfo.Name);
-            combobox_CamList.SelectedIndex = 0;
+            if(combobox_CamList.Items.Count > 0)
+                combobox_CamList.SelectedIndex = 0;
             videoCaptureDevice = new VideoCaptureDevice();
-        }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if(videoCaptureDevice.IsRunning)
-                videoCaptureDevice.Stop();
+            cancelByUser.Register(() => videoCaptureDevice?.Stop());
         }
 
         private void ViedoCaptureDecice_NewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -73,8 +69,9 @@ namespace WindowsFormsApp1
         private void button_Save_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.InitialDirectory = @"C:\Users\LWP1398\Desktop"; 
-            sfd.Filter = "Bitmap Image|*.bmp | JPeg Image|*.jpg|Gif Image|*.gif";
+            sfd.InitialDirectory = @"D:\"; 
+            //sfd.Filter = "Bitmap Image|*.bmp | JPeg Image|*.jpg|Gif Image|*.gif";
+            sfd.Filter = "(*.bmp) |*.bmp |(*.jpg) | *.jpg|(*.gif) |*.gif";
             sfd.DefaultExt = "bmp";
             if (sfd.ShowDialog(this) == DialogResult.Cancel)
             {
