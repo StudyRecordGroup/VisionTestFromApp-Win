@@ -65,18 +65,16 @@ namespace WindowsFormsApp1
             pictureBox_Pic.Image = image_GrabPic;
         }
 
-
         private void button_Save_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.InitialDirectory = @"D:\"; 
-            //sfd.Filter = "Bitmap Image|*.bmp | JPeg Image|*.jpg|Gif Image|*.gif";
+            string sfdDicPath = Path.Combine(Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName), "picture");
+            System.IO.Directory.CreateDirectory(sfdDicPath);
+            sfd.InitialDirectory = @sfdDicPath; 
             sfd.Filter = "(*.bmp) |*.bmp |(*.jpg) | *.jpg|(*.gif) |*.gif";
             sfd.DefaultExt = "bmp";
             if (sfd.ShowDialog(this) == DialogResult.Cancel)
-            {
                 return;
-            }
             image_GrabPic.Save(sfd.FileName);
         }
     }
