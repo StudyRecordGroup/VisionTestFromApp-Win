@@ -19,7 +19,7 @@ namespace WindowsFormsApp1
             InitializeComponent();
 
             ctx = new CancellationTokenSource();
-            layoutPanel = new TableLayoutPanel() { Dock = DockStyle.Fill, Visible = true };
+            layoutPanel = new TableLayoutPanel() { Dock = DockStyle.Fill, Visible = true, CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble, AutoSize = true, AutoSizeMode = AutoSizeMode.GrowAndShrink };
             layoutPanel.Controls.Add(new Form1(ctx.Token), 0, 0);
             layoutPanel.Controls.Add(new Form2(ctx.Token), 1, 0);
             this.Controls.Add(layoutPanel);

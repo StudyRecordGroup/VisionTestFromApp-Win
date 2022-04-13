@@ -77,5 +77,10 @@ namespace WindowsFormsApp1
                 return;
             image_GrabPic.Save(sfd.FileName);
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
