@@ -31,15 +31,19 @@
             this.pictureBox_Cam = new System.Windows.Forms.PictureBox();
             this.button_Start = new System.Windows.Forms.Button();
             this.combobox_CamList = new System.Windows.Forms.ComboBox();
-            this.button_Close = new System.Windows.Forms.Button();
-            this.button_Grab = new System.Windows.Forms.Button();
-            this.button_Save = new System.Windows.Forms.Button();
             this.pictureBox_Pic = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.button_Close = new System.Windows.Forms.Button();
+            this.button_Save = new System.Windows.Forms.Button();
+            this.button_Grab = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.button_Start_CV = new System.Windows.Forms.Button();
+            this.button_Close_CV = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Cam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Pic)).BeginInit();
@@ -62,9 +66,9 @@
             // button_Start
             // 
             this.button_Start.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Start.Location = new System.Drawing.Point(3, 33);
+            this.button_Start.Location = new System.Drawing.Point(3, 53);
             this.button_Start.Name = "button_Start";
-            this.button_Start.Size = new System.Drawing.Size(493, 81);
+            this.button_Start.Size = new System.Drawing.Size(243, 76);
             this.button_Start.TabIndex = 1;
             this.button_Start.Text = "Start";
             this.button_Start.UseVisualStyleBackColor = true;
@@ -74,43 +78,10 @@
             // 
             this.combobox_CamList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.combobox_CamList.FormattingEnabled = true;
-            this.combobox_CamList.Location = new System.Drawing.Point(3, 3);
+            this.combobox_CamList.Location = new System.Drawing.Point(3, 23);
             this.combobox_CamList.Name = "combobox_CamList";
-            this.combobox_CamList.Size = new System.Drawing.Size(493, 20);
+            this.combobox_CamList.Size = new System.Drawing.Size(243, 20);
             this.combobox_CamList.TabIndex = 4;
-            // 
-            // button_Close
-            // 
-            this.button_Close.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Close.Location = new System.Drawing.Point(3, 120);
-            this.button_Close.Name = "button_Close";
-            this.button_Close.Size = new System.Drawing.Size(493, 81);
-            this.button_Close.TabIndex = 5;
-            this.button_Close.Text = "Close";
-            this.button_Close.UseVisualStyleBackColor = true;
-            this.button_Close.Click += new System.EventHandler(this.button_Close_Click);
-            // 
-            // button_Grab
-            // 
-            this.button_Grab.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Grab.Location = new System.Drawing.Point(3, 207);
-            this.button_Grab.Name = "button_Grab";
-            this.button_Grab.Size = new System.Drawing.Size(493, 81);
-            this.button_Grab.TabIndex = 6;
-            this.button_Grab.Text = "Grab";
-            this.button_Grab.UseVisualStyleBackColor = true;
-            this.button_Grab.Click += new System.EventHandler(this.button_Grab_Click);
-            // 
-            // button_Save
-            // 
-            this.button_Save.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Save.Location = new System.Drawing.Point(3, 294);
-            this.button_Save.Name = "button_Save";
-            this.button_Save.Size = new System.Drawing.Size(493, 83);
-            this.button_Save.TabIndex = 7;
-            this.button_Save.Text = "Save";
-            this.button_Save.UseVisualStyleBackColor = true;
-            this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
             // 
             // pictureBox_Pic
             // 
@@ -128,9 +99,9 @@
             this.label1.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 24);
+            this.label1.Size = new System.Drawing.Size(205, 24);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Camera image";
+            this.label1.Text = "Camera image (Live)";
             // 
             // label2
             // 
@@ -142,7 +113,6 @@
             this.label2.Size = new System.Drawing.Size(427, 24);
             this.label2.TabIndex = 10;
             this.label2.Text = "Grab image";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -176,17 +146,23 @@
             // 
             // tableLayoutPanel3
             // 
-            this.tableLayoutPanel3.ColumnCount = 1;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.combobox_CamList, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.button_Start, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.button_Close, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.button_Save, 0, 4);
-            this.tableLayoutPanel3.Controls.Add(this.button_Grab, 0, 3);
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.combobox_CamList, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.button_Start, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.button_Close, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.button_Save, 0, 5);
+            this.tableLayoutPanel3.Controls.Add(this.button_Grab, 0, 4);
+            this.tableLayoutPanel3.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label4, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.button_Start_CV, 1, 2);
+            this.tableLayoutPanel3.Controls.Add(this.button_Close_CV, 1, 3);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(442, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 5;
+            this.tableLayoutPanel3.RowCount = 6;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -194,6 +170,83 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(499, 380);
             this.tableLayoutPanel3.TabIndex = 13;
+            // 
+            // button_Close
+            // 
+            this.button_Close.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Close.Location = new System.Drawing.Point(3, 135);
+            this.button_Close.Name = "button_Close";
+            this.button_Close.Size = new System.Drawing.Size(243, 76);
+            this.button_Close.TabIndex = 5;
+            this.button_Close.Text = "Close";
+            this.button_Close.UseVisualStyleBackColor = true;
+            this.button_Close.Click += new System.EventHandler(this.button_Close_Click);
+            // 
+            // button_Save
+            // 
+            this.button_Save.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Save.Location = new System.Drawing.Point(3, 299);
+            this.button_Save.Name = "button_Save";
+            this.button_Save.Size = new System.Drawing.Size(243, 78);
+            this.button_Save.TabIndex = 7;
+            this.button_Save.Text = "Save";
+            this.button_Save.UseVisualStyleBackColor = true;
+            this.button_Save.Click += new System.EventHandler(this.button_Save_Click);
+            // 
+            // button_Grab
+            // 
+            this.button_Grab.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Grab.Location = new System.Drawing.Point(3, 217);
+            this.button_Grab.Name = "button_Grab";
+            this.button_Grab.Size = new System.Drawing.Size(243, 76);
+            this.button_Grab.TabIndex = 6;
+            this.button_Grab.Text = "Grab";
+            this.button_Grab.UseVisualStyleBackColor = true;
+            this.button_Grab.Click += new System.EventHandler(this.button_Grab_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(243, 20);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "AForge";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label4.Location = new System.Drawing.Point(252, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(244, 20);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "OpenCV";
+            // 
+            // button_Start_CV
+            // 
+            this.button_Start_CV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Start_CV.Location = new System.Drawing.Point(252, 53);
+            this.button_Start_CV.Name = "button_Start_CV";
+            this.button_Start_CV.Size = new System.Drawing.Size(244, 76);
+            this.button_Start_CV.TabIndex = 10;
+            this.button_Start_CV.Text = "Start_CV";
+            this.button_Start_CV.UseVisualStyleBackColor = true;
+            this.button_Start_CV.Click += new System.EventHandler(this.button_Start_CV_Click);
+            // 
+            // button_Close_CV
+            // 
+            this.button_Close_CV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Close_CV.Location = new System.Drawing.Point(252, 135);
+            this.button_Close_CV.Name = "button_Close_CV";
+            this.button_Close_CV.Size = new System.Drawing.Size(244, 76);
+            this.button_Close_CV.TabIndex = 11;
+            this.button_Close_CV.Text = "Close_CV";
+            this.button_Close_CV.UseVisualStyleBackColor = true;
+            this.button_Close_CV.Click += new System.EventHandler(this.button_Close_CV_Click);
             // 
             // tableLayoutPanel4
             // 
@@ -226,6 +279,7 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -236,9 +290,6 @@
         private System.Windows.Forms.PictureBox pictureBox_Cam;
         private System.Windows.Forms.Button button_Start;
         private System.Windows.Forms.ComboBox combobox_CamList;
-        private System.Windows.Forms.Button button_Close;
-        private System.Windows.Forms.Button button_Grab;
-        private System.Windows.Forms.Button button_Save;
         private System.Windows.Forms.PictureBox pictureBox_Pic;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -246,6 +297,13 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Button button_Close;
+        private System.Windows.Forms.Button button_Save;
+        private System.Windows.Forms.Button button_Grab;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button_Start_CV;
+        private System.Windows.Forms.Button button_Close_CV;
     }
 }
 

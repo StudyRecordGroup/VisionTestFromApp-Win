@@ -12,13 +12,26 @@ using AForge;
 using AForge.Video.DirectShow;
 using AForge.Video;
 using System.Threading;
+using OpenCvSharp;
+using OpenCvSharp.Extensions;
 
 namespace WindowsFormsApp1
 {
     public partial class Form1 : UserControl
     {
-        FilterInfoCollection filterInfoCollection;
-        VideoCaptureDevice videoCaptureDevice;
+        /// <summary>
+        /// AForge
+        /// </summary>
+        FilterInfoCollection aforge_filterInfoCollection;
+        VideoCaptureDevice aforge_videoCaptureDevice;
+
+        /// <summary>
+        /// OpenCV
+        /// </summary>
+        VideoCapture cv_videoCapture;
+        Thread threadCam;
+        bool bPlatfalg = false;
+
         Bitmap image_Camera;
         Bitmap image_GrabPic;
 
@@ -29,14 +42,28 @@ namespace WindowsFormsApp1
             pictureBox_Cam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             pictureBox_Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 
-            filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            foreach (FilterInfo filterInfo in filterInfoCollection)
+            aforge_filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            foreach (FilterInfo filterInfo in aforge_filterInfoCollection)
                 combobox_CamList.Items.Add(filterInfo.Name);
             if(combobox_CamList.Items.Count > 0)
                 combobox_CamList.SelectedIndex = 0;
-            videoCaptureDevice = new VideoCaptureDevice();
+            aforge_videoCaptureDevice = new VideoCaptureDevice();
+            cv_videoCapture = new VideoCapture();
 
-            cancelByUser.Register(() => videoCaptureDevice?.Stop());
+            cancelByUser.Register(() => finalDo());
+        }
+
+        private void finalDo()
+        {
+            if (aforge_videoCaptureDevice.IsRunning)
+                aforge_videoCaptureDevice?.Stop();
+            if(cv_videoCapture.IsOpened())
+            {
+                bPlatfalg = false;
+                if(threadCam != null)
+                    threadCam.Abort();
+                cv_videoCapture.Release();
+            }
         }
 
         private void ViedoCaptureDecice_NewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -47,15 +74,15 @@ namespace WindowsFormsApp1
 
         private void button_Start_Click(object sender, EventArgs e)
         {
-            videoCaptureDevice = new VideoCaptureDevice(filterInfoCollection[combobox_CamList.SelectedIndex].MonikerString);
-            videoCaptureDevice.NewFrame += ViedoCaptureDecice_NewFrame;
-            videoCaptureDevice.Start();
+            aforge_videoCaptureDevice = new VideoCaptureDevice(aforge_filterInfoCollection[combobox_CamList.SelectedIndex].MonikerString);
+            aforge_videoCaptureDevice.NewFrame += ViedoCaptureDecice_NewFrame;
+            aforge_videoCaptureDevice.Start();
         }
 
         private void button_Close_Click(object sender, EventArgs e)
         {
-            if (videoCaptureDevice.IsRunning)
-                videoCaptureDevice.Stop();
+            if (aforge_videoCaptureDevice.IsRunning)
+                aforge_videoCaptureDevice.Stop();
             pictureBox_Cam.Image = image_Camera = null;
         }
 
@@ -78,9 +105,44 @@ namespace WindowsFormsApp1
             image_GrabPic.Save(sfd.FileName);
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void button_Start_CV_Click(object sender, EventArgs e)
+        {
+            if(!bPlatfalg)
+            {
+                if (cv_videoCapture.IsOpened())
+                    return;
+                cv_videoCapture.Open(0);
+
+                bPlatfalg = true;
+                threadCam = new Thread(play_Camera);
+                threadCam.Start();
+            }
+        }
+
+        private void button_Close_CV_Click(object sender, EventArgs e)
+        {
+            bPlatfalg = false;
+            threadCam.Abort();
+            cv_videoCapture.Release();
+            pictureBox_Cam.Image = image_Camera = null;
+        }
+
+        private void play_Camera()
         {
 
+            while (bPlatfalg)
+            {
+                Mat cFram = new Mat();
+
+                cv_videoCapture.Read(cFram);
+
+                if (cFram.Empty())
+                    continue;
+
+                pictureBox_Cam.Image = cFram.ToBitmap();
+                cFram.Release();
+            }
         }
+
     }
 }
