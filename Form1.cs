@@ -19,21 +19,21 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : UserControl
     {
-        /// <summary>
-        /// AForge
-        /// </summary>
-        FilterInfoCollection aforge_filterInfoCollection;
-        VideoCaptureDevice aforge_videoCaptureDevice;
+        #region // AForce
+        FilterInfoCollection AForge_filterInfoCollection { get; set; }
+        VideoCaptureDevice AForge_videoCaptureDevice { get; set; }
+        #endregion
 
-        /// <summary>
-        /// OpenCV
-        /// </summary>
-        VideoCapture cv_videoCapture;
-        Thread threadCam;
-        bool bPlatfalg = false;
+        #region // OpenCVsharp
+        VideoCapture OpenCV_videoCapture { get; set; }
+        #endregion
 
-        Bitmap image_Camera;
-        Bitmap image_GrabPic;
+        int m_Cam_index = -1;
+        BackgroundWorker m_worker;
+        bool m_worderIsWorking = false;
+        byte m_workModule = 0;
+        Bitmap image_Camera { get; set; }
+        Bitmap image_GrabPic { get; set; }
 
         public Form1(CancellationToken cancelByUser)
         {
@@ -42,48 +42,112 @@ namespace WindowsFormsApp1
             pictureBox_Cam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             pictureBox_Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 
-            aforge_filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            foreach (FilterInfo filterInfo in aforge_filterInfoCollection)
+            AForge_filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            foreach (FilterInfo filterInfo in AForge_filterInfoCollection)
+            {
                 combobox_CamList.Items.Add(filterInfo.Name);
-            if(combobox_CamList.Items.Count > 0)
+            }
+            if (combobox_CamList.Items.Count > 0)
+            {
                 combobox_CamList.SelectedIndex = 0;
-            aforge_videoCaptureDevice = new VideoCaptureDevice();
-            cv_videoCapture = new VideoCapture();
-
+                m_Cam_index = 0;
+            }
             cancelByUser.Register(() => finalDo());
+            timer_UI.Start();
         }
 
         private void finalDo()
         {
-            if (aforge_videoCaptureDevice.IsRunning)
-                aforge_videoCaptureDevice?.Stop();
-            if(cv_videoCapture.IsOpened())
+            if(m_worker!=null)
+                m_worker.CancelAsync();
+            switch (m_workModule)
             {
-                bPlatfalg = false;
-                if(threadCam != null)
-                    threadCam.Abort();
-                cv_videoCapture.Release();
+                case 1:
+                    if (AForge_videoCaptureDevice.IsRunning)
+                    {
+                        AForge_videoCaptureDevice?.Stop();
+                        AForge_videoCaptureDevice = null;
+                    }
+                    break;
+                case 2:
+                    if (OpenCV_videoCapture.IsOpened())
+                    {
+                        OpenCV_videoCapture.Release();
+                        OpenCV_videoCapture = null;
+                    }
+                break ;
+                default:
+                    break;
+            }
+            m_worderIsWorking = false;
+            m_workModule = 0;
+            pictureBox_Cam.Image = image_Camera = null;
+        }
+
+        private void combobox_CamList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            m_Cam_index = combobox_CamList.SelectedIndex;
+        }
+
+        private void button_Start_AForge_Click(object sender, EventArgs e)
+        {
+            AForge_videoCaptureDevice = new VideoCaptureDevice(AForge_filterInfoCollection[combobox_CamList.SelectedIndex].MonikerString);
+            m_worker = new BackgroundWorker() { WorkerSupportsCancellation = true };
+            m_worker.DoWork += M_worker_DoWork_AForge;
+            m_worker.RunWorkerAsync();
+            m_worderIsWorking = true;
+            AForge_videoCaptureDevice.Start();
+        }
+
+        private void M_worker_DoWork_AForge(object sender, DoWorkEventArgs e)
+        {
+            m_workModule = 1;
+            AForge_videoCaptureDevice.NewFrame += (s, eventArgs) =>
+            {
+                image_Camera = (Bitmap)eventArgs.Frame.Clone();
+                pictureBox_Cam.Image = image_Camera;
+            };
+            //AForge_videoCaptureDevice.NewFrame += ViedoCaptureDecice_NewFrame;
+        }
+
+        //private void ViedoCaptureDecice_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        //{
+        //    image_Camera = (Bitmap)eventArgs.Frame.Clone();
+        //    pictureBox_Cam.Image = image_Camera;
+        //}
+
+        private void button_Start_CV_Click(object sender, EventArgs e)
+        {
+            OpenCV_videoCapture = new VideoCapture();
+            OpenCV_videoCapture.Open(m_Cam_index);
+            m_worker = new BackgroundWorker() { WorkerSupportsCancellation = true };
+            m_worker.DoWork += M_worker_DoWork_OpenCV;
+            m_worderIsWorking = true;
+            m_worker.RunWorkerAsync();
+        }
+
+        private void M_worker_DoWork_OpenCV(object sender, DoWorkEventArgs e)
+        {
+            m_workModule = 2;
+            while (!m_worker.CancellationPending)
+            {
+                Mat cFram = new Mat();
+                OpenCV_videoCapture.Read(cFram);
+                if (cFram.Empty()) continue;
+                image_Camera = cFram.ToBitmap();
+                pictureBox_Cam.Image = image_Camera;
+                cFram.Release();
             }
         }
 
-        private void ViedoCaptureDecice_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        private void button_Close_AForge_Click(object sender, EventArgs e)
         {
-            image_Camera = (Bitmap)eventArgs.Frame.Clone();
-            pictureBox_Cam.Image = image_Camera;
+            finalDo();
         }
 
-        private void button_Start_Click(object sender, EventArgs e)
+        private void button_Close_CV_Click(object sender, EventArgs e)
         {
-            aforge_videoCaptureDevice = new VideoCaptureDevice(aforge_filterInfoCollection[combobox_CamList.SelectedIndex].MonikerString);
-            aforge_videoCaptureDevice.NewFrame += ViedoCaptureDecice_NewFrame;
-            aforge_videoCaptureDevice.Start();
-        }
-
-        private void button_Close_Click(object sender, EventArgs e)
-        {
-            if (aforge_videoCaptureDevice.IsRunning)
-                aforge_videoCaptureDevice.Stop();
-            pictureBox_Cam.Image = image_Camera = null;
+            finalDo();
         }
 
         private void button_Grab_Click(object sender, EventArgs e)
@@ -97,7 +161,7 @@ namespace WindowsFormsApp1
             SaveFileDialog sfd = new SaveFileDialog();
             string sfdDicPath = Path.Combine(Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName), "picture");
             System.IO.Directory.CreateDirectory(sfdDicPath);
-            sfd.InitialDirectory = @sfdDicPath; 
+            sfd.InitialDirectory = @sfdDicPath;
             sfd.Filter = "(*.bmp) |*.bmp |(*.jpg) | *.jpg|(*.gif) |*.gif";
             sfd.DefaultExt = "bmp";
             if (sfd.ShowDialog(this) == DialogResult.Cancel)
@@ -105,44 +169,19 @@ namespace WindowsFormsApp1
             image_GrabPic.Save(sfd.FileName);
         }
 
-        private void button_Start_CV_Click(object sender, EventArgs e)
+        private void foolproof_UI()
         {
-            if(!bPlatfalg)
-            {
-                if (cv_videoCapture.IsOpened())
-                    return;
-                cv_videoCapture.Open(0);
-
-                bPlatfalg = true;
-                threadCam = new Thread(play_Camera);
-                threadCam.Start();
-            }
+            button_Start_AForge.Enabled = !m_worderIsWorking;
+            button_Start_CV.Enabled = !m_worderIsWorking;
+            button_Close_AForge.Enabled = m_worderIsWorking & (m_workModule == 1);
+            button_Close_CV.Enabled = m_worderIsWorking & (m_workModule == 2);
+            button_Grab.Enabled = m_worderIsWorking;
+            button_Save.Enabled = image_GrabPic == null ? true : false;
         }
 
-        private void button_Close_CV_Click(object sender, EventArgs e)
+        private void timer_UI_Tick(object sender, EventArgs e)
         {
-            bPlatfalg = false;
-            threadCam.Abort();
-            cv_videoCapture.Release();
-            pictureBox_Cam.Image = image_Camera = null;
+            foolproof_UI();
         }
-
-        private void play_Camera()
-        {
-
-            while (bPlatfalg)
-            {
-                Mat cFram = new Mat();
-
-                cv_videoCapture.Read(cFram);
-
-                if (cFram.Empty())
-                    continue;
-
-                pictureBox_Cam.Image = cFram.ToBitmap();
-                cFram.Release();
-            }
-        }
-
     }
 }

@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pictureBox_Cam = new System.Windows.Forms.PictureBox();
-            this.button_Start = new System.Windows.Forms.Button();
+            this.button_Start_AForge = new System.Windows.Forms.Button();
             this.combobox_CamList = new System.Windows.Forms.ComboBox();
             this.pictureBox_Pic = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,7 +38,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.button_Close = new System.Windows.Forms.Button();
+            this.button_Close_AForge = new System.Windows.Forms.Button();
             this.button_Save = new System.Windows.Forms.Button();
             this.button_Grab = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -45,6 +46,7 @@
             this.button_Start_CV = new System.Windows.Forms.Button();
             this.button_Close_CV = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.timer_UI = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Cam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Pic)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -63,16 +65,16 @@
             this.pictureBox_Cam.TabIndex = 0;
             this.pictureBox_Cam.TabStop = false;
             // 
-            // button_Start
+            // button_Start_AForge
             // 
-            this.button_Start.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Start.Location = new System.Drawing.Point(3, 53);
-            this.button_Start.Name = "button_Start";
-            this.button_Start.Size = new System.Drawing.Size(243, 76);
-            this.button_Start.TabIndex = 1;
-            this.button_Start.Text = "Start";
-            this.button_Start.UseVisualStyleBackColor = true;
-            this.button_Start.Click += new System.EventHandler(this.button_Start_Click);
+            this.button_Start_AForge.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Start_AForge.Location = new System.Drawing.Point(3, 53);
+            this.button_Start_AForge.Name = "button_Start_AForge";
+            this.button_Start_AForge.Size = new System.Drawing.Size(243, 76);
+            this.button_Start_AForge.TabIndex = 1;
+            this.button_Start_AForge.Text = "Start_AForge";
+            this.button_Start_AForge.UseVisualStyleBackColor = true;
+            this.button_Start_AForge.Click += new System.EventHandler(this.button_Start_AForge_Click);
             // 
             // combobox_CamList
             // 
@@ -150,8 +152,8 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.Controls.Add(this.combobox_CamList, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.button_Start, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.button_Close, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.button_Start_AForge, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.button_Close_AForge, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.button_Save, 0, 5);
             this.tableLayoutPanel3.Controls.Add(this.button_Grab, 0, 4);
             this.tableLayoutPanel3.Controls.Add(this.label3, 0, 0);
@@ -171,16 +173,16 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(499, 380);
             this.tableLayoutPanel3.TabIndex = 13;
             // 
-            // button_Close
+            // button_Close_AForge
             // 
-            this.button_Close.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Close.Location = new System.Drawing.Point(3, 135);
-            this.button_Close.Name = "button_Close";
-            this.button_Close.Size = new System.Drawing.Size(243, 76);
-            this.button_Close.TabIndex = 5;
-            this.button_Close.Text = "Close";
-            this.button_Close.UseVisualStyleBackColor = true;
-            this.button_Close.Click += new System.EventHandler(this.button_Close_Click);
+            this.button_Close_AForge.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Close_AForge.Location = new System.Drawing.Point(3, 135);
+            this.button_Close_AForge.Name = "button_Close_AForge";
+            this.button_Close_AForge.Size = new System.Drawing.Size(243, 76);
+            this.button_Close_AForge.TabIndex = 5;
+            this.button_Close_AForge.Text = "Close_AForge";
+            this.button_Close_AForge.UseVisualStyleBackColor = true;
+            this.button_Close_AForge.Click += new System.EventHandler(this.button_Close_AForge_Click);
             // 
             // button_Save
             // 
@@ -265,6 +267,12 @@
             this.tableLayoutPanel4.Size = new System.Drawing.Size(944, 772);
             this.tableLayoutPanel4.TabIndex = 14;
             // 
+            // timer_UI
+            // 
+            this.timer_UI.Enabled = true;
+            this.timer_UI.Interval = 5;
+            this.timer_UI.Tick += new System.EventHandler(this.timer_UI_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -288,7 +296,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox_Cam;
-        private System.Windows.Forms.Button button_Start;
+        private System.Windows.Forms.Button button_Start_AForge;
         private System.Windows.Forms.ComboBox combobox_CamList;
         private System.Windows.Forms.PictureBox pictureBox_Pic;
         private System.Windows.Forms.Label label1;
@@ -297,13 +305,14 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.Button button_Close;
+        private System.Windows.Forms.Button button_Close_AForge;
         private System.Windows.Forms.Button button_Save;
         private System.Windows.Forms.Button button_Grab;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button_Start_CV;
         private System.Windows.Forms.Button button_Close_CV;
+        private System.Windows.Forms.Timer timer_UI;
     }
 }
 
