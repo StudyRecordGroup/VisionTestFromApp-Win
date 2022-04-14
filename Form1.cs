@@ -179,7 +179,7 @@ namespace WindowsFormsApp1
             button_Close_AForge.Enabled = m_worderIsWorking & (m_workModule == 1);
             button_Close_CV.Enabled = m_worderIsWorking & (m_workModule == 2);
             button_Grab.Enabled = m_worderIsWorking;
-            button_Save.Enabled = image_GrabPic == null ? true : false;
+            button_Save.Enabled = image_GrabPic == null ? false : true;
         }
 
         private void timer_UI_Tick(object sender, EventArgs e)
