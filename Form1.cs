@@ -28,7 +28,7 @@ namespace WindowsFormsApp1
         VideoCapture OpenCV_videoCapture { get; set; }
         #endregion
 
-        int m_Cam_index = -1;
+        int m_Cam_index { get; set; } = -1;
         BackgroundWorker m_worker;
         bool m_worderIsWorking = false;
         byte m_workModule = 0;
@@ -60,6 +60,7 @@ namespace WindowsFormsApp1
         {
             if(m_worker!=null)
                 m_worker.CancelAsync();
+            
             switch (m_workModule)
             {
                 case 1:
@@ -86,7 +87,8 @@ namespace WindowsFormsApp1
 
         private void combobox_CamList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            m_Cam_index = combobox_CamList.SelectedIndex;
+            int camsel = combobox_CamList.SelectedIndex;
+            m_Cam_index = camsel;
         }
 
         private void button_Start_AForge_Click(object sender, EventArgs e)
@@ -119,7 +121,7 @@ namespace WindowsFormsApp1
         private void button_Start_CV_Click(object sender, EventArgs e)
         {
             OpenCV_videoCapture = new VideoCapture();
-            OpenCV_videoCapture.Open(m_Cam_index);
+            OpenCV_videoCapture.Open(combobox_CamList.Items.Count -1 - m_Cam_index); // becaues OpenCV camera's index is reverse of AForce FilterInfoCollection
             m_worker = new BackgroundWorker() { WorkerSupportsCancellation = true };
             m_worker.DoWork += M_worker_DoWork_OpenCV;
             m_worderIsWorking = true;
@@ -135,7 +137,8 @@ namespace WindowsFormsApp1
                 OpenCV_videoCapture.Read(cFram);
                 if (cFram.Empty()) continue;
                 image_Camera = cFram.ToBitmap();
-                pictureBox_Cam.Image = image_Camera;
+                if(m_worderIsWorking) // this if is avoid the m_worker cancel but it still read a black fram ,and set to the picturebox
+                    pictureBox_Cam.Image = image_Camera;
                 cFram.Release();
             }
         }

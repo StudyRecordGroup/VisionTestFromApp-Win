@@ -84,6 +84,7 @@
             this.combobox_CamList.Name = "combobox_CamList";
             this.combobox_CamList.Size = new System.Drawing.Size(243, 20);
             this.combobox_CamList.TabIndex = 4;
+            this.combobox_CamList.SelectedIndexChanged += new System.EventHandler(this.combobox_CamList_SelectedIndexChanged);
             // 
             // pictureBox_Pic
             // 
