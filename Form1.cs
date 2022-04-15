@@ -38,9 +38,6 @@ namespace WindowsFormsApp1
         public Form1(CancellationToken cancelByUser)
         {
             InitializeComponent();
-            this.Dock = DockStyle.Fill;
-            pictureBox_Cam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            pictureBox_Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 
             AForge_filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             foreach (FilterInfo filterInfo in AForge_filterInfoCollection)
@@ -54,6 +51,7 @@ namespace WindowsFormsApp1
             }
             cancelByUser.Register(() => finalDo());
             timer_UI.Start();
+            
         }
 
         private void finalDo()
