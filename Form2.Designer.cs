@@ -164,6 +164,7 @@
             this.trackBar_H_Low.Name = "trackBar_H_Low";
             this.trackBar_H_Low.Size = new System.Drawing.Size(219, 71);
             this.trackBar_H_Low.TabIndex = 0;
+            this.trackBar_H_Low.Value = 100;
             // 
             // trackBar_H_High
             // 
@@ -174,6 +175,7 @@
             this.trackBar_H_High.Name = "trackBar_H_High";
             this.trackBar_H_High.Size = new System.Drawing.Size(219, 71);
             this.trackBar_H_High.TabIndex = 1;
+            this.trackBar_H_High.Value = 140;
             // 
             // trackBar_S_Low
             // 
@@ -184,6 +186,7 @@
             this.trackBar_S_Low.Name = "trackBar_S_Low";
             this.trackBar_S_Low.Size = new System.Drawing.Size(219, 71);
             this.trackBar_S_Low.TabIndex = 2;
+            this.trackBar_S_Low.Value = 90;
             // 
             // trackBar_S_High
             // 
@@ -194,6 +197,7 @@
             this.trackBar_S_High.Name = "trackBar_S_High";
             this.trackBar_S_High.Size = new System.Drawing.Size(219, 71);
             this.trackBar_S_High.TabIndex = 3;
+            this.trackBar_S_High.Value = 255;
             // 
             // trackBar_V_Low
             // 
@@ -204,6 +208,7 @@
             this.trackBar_V_Low.Name = "trackBar_V_Low";
             this.trackBar_V_Low.Size = new System.Drawing.Size(219, 71);
             this.trackBar_V_Low.TabIndex = 4;
+            this.trackBar_V_Low.Value = 90;
             // 
             // trackBar_V_High
             // 
@@ -214,6 +219,7 @@
             this.trackBar_V_High.Name = "trackBar_V_High";
             this.trackBar_V_High.Size = new System.Drawing.Size(219, 74);
             this.trackBar_V_High.TabIndex = 5;
+            this.trackBar_V_High.Value = 255;
             // 
             // label3
             // 

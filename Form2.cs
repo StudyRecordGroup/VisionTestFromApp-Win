@@ -22,16 +22,28 @@ namespace WindowsFormsApp1
         public Form2(CancellationToken cancelByUser)
         {
             InitializeComponent();
+
+            initialCalibratePanel();
+            pictureBox_Source.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Source", true);
+            pictureBox_Result.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Result", true);
+
+            timer_UI.Start();
+        }
+
+        private void initialCalibratePanel()
+        {
             trackBar_H_Low.ValueChanged += TrackBar_ValueChanged;
             trackBar_H_High.ValueChanged += TrackBar_ValueChanged;
             trackBar_S_Low.ValueChanged += TrackBar_ValueChanged;
             trackBar_S_High.ValueChanged += TrackBar_ValueChanged;
             trackBar_V_Low.ValueChanged += TrackBar_ValueChanged;
             trackBar_V_High.ValueChanged += TrackBar_ValueChanged;
-            pictureBox_Source.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Source", true);
-            pictureBox_Result.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Result", true);
-
-            timer_UI.Start();
+            label_H_Low.Text = trackBar_H_Low.Value.ToString();
+            label_H_High.Text = trackBar_H_High.Value.ToString();
+            label_S_Low.Text = trackBar_S_Low.Value.ToString();
+            label_S_High.Text = trackBar_S_High.Value.ToString();
+            label_V_Low.Text = trackBar_V_Low.Value.ToString();
+            label_V_High.Text = trackBar_V_High.Value.ToString();
         }
 
         private void TrackBar_ValueChanged(object sender, EventArgs e)
