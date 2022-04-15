@@ -55,6 +55,7 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox_Result = new System.Windows.Forms.PictureBox();
+            this.button_Progress_Canny = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Source)).BeginInit();
             this.tableLayoutPanel5.SuspendLayout();
@@ -116,6 +117,7 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.3169F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.42267F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.26043F));
+            this.tableLayoutPanel5.Controls.Add(this.button_Progress_Canny, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.button_OpenPhoto, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.trackBar_H_Low, 1, 3);
             this.tableLayoutPanel5.Controls.Add(this.trackBar_H_High, 1, 4);
@@ -164,6 +166,7 @@
             this.button_OpenPhoto.TabIndex = 19;
             this.button_OpenPhoto.Text = "Open Photo";
             this.button_OpenPhoto.UseVisualStyleBackColor = true;
+            this.button_OpenPhoto.Click += new System.EventHandler(this.button_OpenPhoto_Click);
             // 
             // trackBar_H_Low
             // 
@@ -413,6 +416,19 @@
             this.pictureBox_Result.TabIndex = 2;
             this.pictureBox_Result.TabStop = false;
             // 
+            // button_Progress_Canny
+            // 
+            this.button_Progress_Canny.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel5.SetColumnSpan(this.button_Progress_Canny, 3);
+            this.button_Progress_Canny.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_Progress_Canny.Location = new System.Drawing.Point(3, 91);
+            this.button_Progress_Canny.Name = "button_Progress_Canny";
+            this.button_Progress_Canny.Size = new System.Drawing.Size(363, 82);
+            this.button_Progress_Canny.TabIndex = 20;
+            this.button_Progress_Canny.Text = "Progress Canny";
+            this.button_Progress_Canny.UseVisualStyleBackColor = true;
+            this.button_Progress_Canny.Click += new System.EventHandler(this.button_Progress_Canny_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -467,5 +483,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox_Result;
+        private System.Windows.Forms.Button button_Progress_Canny;
     }
 }

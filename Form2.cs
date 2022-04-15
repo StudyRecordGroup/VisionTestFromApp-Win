@@ -15,8 +15,6 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : UserControl
     {
-        Image bitmapImage_Source { get; set; }
-        Image bitmapImage_Result { get; set; }
         string imagePath { get; set; }
         int H_Low { get; set; }
         int H_High { get; set; }
@@ -24,17 +22,19 @@ namespace WindowsFormsApp1
         int S_High { get; set; }
         int V_Low { get; set; }
         int V_High { get; set; }
+        ShowProgressImage m_showProgressImage = new ShowProgressImage();
 
         public Form2(CancellationToken cancelByUser)
         {
             InitializeComponent();
-            button_OpenPhoto.Click += button_OpenPhoto_Click;
             trackBar_H_Low.ValueChanged += TrackBar_ValueChanged;
             trackBar_H_High.ValueChanged += TrackBar_ValueChanged;
             trackBar_S_Low.ValueChanged += TrackBar_ValueChanged;
             trackBar_S_High.ValueChanged += TrackBar_ValueChanged;
             trackBar_V_Low.ValueChanged += TrackBar_ValueChanged;
             trackBar_V_High.ValueChanged += TrackBar_ValueChanged;
+            pictureBox_Source.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Source", true);
+            pictureBox_Result.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Result", true);
         }
 
         private void TrackBar_ValueChanged(object sender, EventArgs e)
@@ -63,24 +63,22 @@ namespace WindowsFormsApp1
 
             imagePath = openFileDialog.FileName;
             Mat srcImg = new Mat(imagePath, ImreadModes.Color);
-            bitmapImage_Source = BitmapConverter.ToBitmap(srcImg);
-            pictureBox_Source.Image = bitmapImage_Source;
+            m_showProgressImage.Image_Progress_Source = BitmapConverter.ToBitmap(srcImg);
         }
 
         private void imageProcess_Canny()
         {
             Mat srcImg = new Mat(imagePath, ImreadModes.Color);
-            bitmapImage_Source = BitmapConverter.ToBitmap(srcImg);
+            m_showProgressImage.Image_Progress_Source = BitmapConverter.ToBitmap(srcImg);
             Mat dstImg = new Mat();
             Cv2.Canny(srcImg, dstImg, 50, 200);  // 
-            bitmapImage_Result = BitmapConverter.ToBitmap(dstImg);
-            pictureBox_Result.Image = bitmapImage_Result;
+            m_showProgressImage.Image_Progress_Result = BitmapConverter.ToBitmap(dstImg);
         }
 
         private void imageProcess_Color()
         {
             Mat srcImg = new Mat(imagePath, ImreadModes.Color);
-            bitmapImage_Source = BitmapConverter.ToBitmap(srcImg);
+            m_showProgressImage.Image_Progress_Source = BitmapConverter.ToBitmap(srcImg);
             Mat dstImg = new Mat();
             Cv2.CvtColor(srcImg, dstImg, ColorConversionCodes.RGB2HSV);
             Mat imgThresholded = new Mat();
@@ -105,14 +103,38 @@ namespace WindowsFormsApp1
                 }
             }
 
-            bitmapImage_Result = BitmapConverter.ToBitmap(dstImg);
-            pictureBox_Result.Image = bitmapImage_Result;
+            m_showProgressImage.Image_Progress_Result = BitmapConverter.ToBitmap(dstImg);
         }
 
-        private void button_ProgressPic_Click(object sender, EventArgs e)
+        private void button_Progress_Canny_Click(object sender, EventArgs e)
         {
-            //imageProcess();
-            imageProcess_Color();
+            imageProcess_Canny();
         }
     }
+
+    public class ShowProgressImage : INotifyPropertyChanged
+    {
+        
+        private Image image_Progress_Source;
+        private Image image_Progress_Result;
+
+        public Image Image_Progress_Source
+        {
+            get { return image_Progress_Source; }
+            set { image_Progress_Source = value; InvokePropertyChanged(new PropertyChangedEventArgs("Image_Progress_Source")); }
+        }
+        public Image Image_Progress_Result
+        {
+            get { return image_Progress_Result; }
+            set { image_Progress_Result = value; InvokePropertyChanged(new PropertyChangedEventArgs("Image_Progress_Result")); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void InvokePropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, e);
+        }
+    }
+
 }

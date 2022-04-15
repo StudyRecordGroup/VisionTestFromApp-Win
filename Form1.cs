@@ -32,8 +32,7 @@ namespace WindowsFormsApp1
         BackgroundWorker m_worker;
         bool m_worderIsWorking = false;
         byte m_workModule = 0;
-        Image image_Camera { get; set; }
-        Image image_GrabPic { get; set; }
+        ShowImage m_showImage = new ShowImage();
 
         public Form1(CancellationToken cancelByUser)
         {
@@ -51,7 +50,9 @@ namespace WindowsFormsApp1
             }
             cancelByUser.Register(() => finalDo());
             timer_UI.Start();
-            
+
+            pictureBox_Cam.DataBindings.Add("Image", m_showImage, "Image_Camera", true);
+            pictureBox_Pic.DataBindings.Add("Image", m_showImage, "Image_GrabPic", true);
         }
 
         private void finalDo()
@@ -80,7 +81,7 @@ namespace WindowsFormsApp1
             }
             m_worderIsWorking = false;
             m_workModule = 0;
-            pictureBox_Cam.Image = image_Camera = null;
+            //m_showImage.Image_Camera = null;
         }
 
         private void combobox_CamList_SelectedIndexChanged(object sender, EventArgs e)
@@ -104,8 +105,7 @@ namespace WindowsFormsApp1
             m_workModule = 1;
             AForge_videoCaptureDevice.NewFrame += (s, eventArgs) =>
             {
-                image_Camera = (Bitmap)eventArgs.Frame.Clone();
-                pictureBox_Cam.Image = image_Camera;
+                m_showImage.Image_Camera = (Bitmap)eventArgs.Frame.Clone();
             };
             //AForge_videoCaptureDevice.NewFrame += ViedoCaptureDecice_NewFrame;
         }
@@ -134,9 +134,9 @@ namespace WindowsFormsApp1
                 Mat cFram = new Mat();
                 OpenCV_videoCapture.Read(cFram);
                 if (cFram.Empty()) continue;
-                image_Camera = cFram.ToBitmap();
-                if(m_worderIsWorking) // this if is avoid the m_worker cancel but it still read a black fram ,and set to the picturebox
-                    pictureBox_Cam.Image = image_Camera;
+                m_showImage.Image_Camera = cFram.ToBitmap();
+                //if(m_worderIsWorking) // this if is avoid the m_worker cancel but it still read a black fram ,and set to the picturebox
+                //    pictureBox_Cam.Image = image_Camera;
                 cFram.Release();
             }
         }
@@ -153,8 +153,7 @@ namespace WindowsFormsApp1
 
         private void button_Grab_Click(object sender, EventArgs e)
         {
-            image_GrabPic = image_Camera;
-            pictureBox_Pic.Image = image_GrabPic;
+            m_showImage.Image_GrabPic = m_showImage.Image_Camera;
         }
 
         private void button_Save_Click(object sender, EventArgs e)
@@ -167,7 +166,7 @@ namespace WindowsFormsApp1
             sfd.DefaultExt = "bmp";
             if (sfd.ShowDialog(this) == DialogResult.Cancel)
                 return;
-            image_GrabPic.Save(sfd.FileName);
+            m_showImage.Image_GrabPic.Save(sfd.FileName);
         }
 
         private void foolproof_UI()
@@ -177,12 +176,36 @@ namespace WindowsFormsApp1
             button_Close_AForge.Enabled = m_worderIsWorking & (m_workModule == 1);
             button_Close_CV.Enabled = m_worderIsWorking & (m_workModule == 2);
             button_Grab.Enabled = m_worderIsWorking;
-            button_Save.Enabled = image_GrabPic == null ? false : true;
+            button_Save.Enabled = m_showImage.Image_GrabPic == null ? false : true;
         }
 
         private void timer_UI_Tick(object sender, EventArgs e)
         {
             foolproof_UI();
+        }
+    }
+
+    public class ShowImage : INotifyPropertyChanged
+    {
+        private Image image_Camera;
+        private Image image_GrabPic;
+
+        public Image Image_Camera
+        {
+            get { return image_Camera; }
+            set { image_Camera = value; InvokePropertyChanged(new PropertyChangedEventArgs("Image_Camera")); }
+        }
+        public Image Image_GrabPic
+        {
+            get { return image_GrabPic; }
+            set { image_GrabPic = value; InvokePropertyChanged(new PropertyChangedEventArgs("Image_GrabPic")); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void InvokePropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, e);
         }
     }
 }
