@@ -16,12 +16,6 @@ namespace WindowsFormsApp1
     public partial class Form2 : UserControl
     {
         string imagePath { get; set; }
-        int H_Low { get; set; }
-        int H_High { get; set; }
-        int S_Low { get; set; }
-        int S_High { get; set; }
-        int V_Low { get; set; }
-        int V_High { get; set; }
         ShowProgressImage m_showProgressImage = new ShowProgressImage();
 
         public Form2(CancellationToken cancelByUser)
@@ -39,19 +33,12 @@ namespace WindowsFormsApp1
 
         private void TrackBar_ValueChanged(object sender, EventArgs e)
         {
-            H_Low = trackBar_H_Low.Value;
-            H_High = trackBar_H_High.Value;
-            S_Low = trackBar_S_Low.Value;
-            S_High = trackBar_S_High.Value;
-            V_Low = trackBar_V_Low.Value;
-            V_High = trackBar_V_High.Value;
-
-            label_H_Low.Text = H_Low.ToString();
-            label_H_High.Text = H_High.ToString();
-            label_S_Low.Text = S_Low.ToString();
-            label_S_High.Text = S_High.ToString();
-            label_V_Low.Text = V_Low.ToString();
-            label_V_High.Text = V_High.ToString();
+            label_H_Low.Text = trackBar_H_Low.Value.ToString();
+            label_H_High.Text = trackBar_H_High.Value.ToString();
+            label_S_Low.Text = trackBar_S_Low.Value.ToString();
+            label_S_High.Text = trackBar_S_High.Value.ToString();
+            label_V_Low.Text = trackBar_V_Low.Value.ToString();
+            label_V_High.Text = trackBar_V_High.Value.ToString();
         }
 
         private void button_OpenPhoto_Click(object sender, EventArgs e)
@@ -83,7 +70,7 @@ namespace WindowsFormsApp1
             Cv2.CvtColor(srcImg, dstImg, ColorConversionCodes.RGB2HSV);
             Mat imgThresholded = new Mat();
 
-            Cv2.InRange(dstImg, new Scalar(H_Low, S_Low, V_Low), new Scalar(H_High, S_High, V_High), imgThresholded);
+            Cv2.InRange(dstImg, new Scalar(trackBar_H_Low.Value, trackBar_S_Low.Value, trackBar_V_Low.Value), new Scalar(trackBar_H_High.Value, trackBar_S_High.Value, trackBar_V_High.Value), imgThresholded);
             dstImg = new Mat(dstImg.Size(), dstImg.Type());
             for (int r = 0; r < dstImg.Rows; r++)
             {
