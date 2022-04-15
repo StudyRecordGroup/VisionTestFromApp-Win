@@ -118,6 +118,8 @@ namespace WindowsFormsApp1
         private void button_Calibrate_Click(object sender, EventArgs e)
         {
             isCalibrating = !isCalibrating;
+            if (isCalibrating)
+                imageProcess_Color();
         }
 
         private void foolproof_UI()
@@ -158,5 +160,4 @@ namespace WindowsFormsApp1
             if (handler != null) handler(this, e);
         }
     }
-
 }
