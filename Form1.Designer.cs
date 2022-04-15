@@ -59,9 +59,9 @@
             // 
             this.pictureBox_Cam.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.pictureBox_Cam.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox_Cam.Location = new System.Drawing.Point(3, 27);
+            this.pictureBox_Cam.Location = new System.Drawing.Point(4, 29);
             this.pictureBox_Cam.Name = "pictureBox_Cam";
-            this.pictureBox_Cam.Size = new System.Drawing.Size(363, 364);
+            this.pictureBox_Cam.Size = new System.Drawing.Size(359, 364);
             this.pictureBox_Cam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox_Cam.TabIndex = 0;
             this.pictureBox_Cam.TabStop = false;
@@ -70,9 +70,9 @@
             // 
             this.button_Start_AForge.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button_Start_AForge.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Start_AForge.Location = new System.Drawing.Point(3, 53);
+            this.button_Start_AForge.Location = new System.Drawing.Point(4, 56);
             this.button_Start_AForge.Name = "button_Start_AForge";
-            this.button_Start_AForge.Size = new System.Drawing.Size(178, 180);
+            this.button_Start_AForge.Size = new System.Drawing.Size(176, 177);
             this.button_Start_AForge.TabIndex = 1;
             this.button_Start_AForge.Text = "Start_AForge";
             this.button_Start_AForge.UseVisualStyleBackColor = true;
@@ -83,9 +83,9 @@
             this.tableLayoutPanel3.SetColumnSpan(this.combobox_CamList, 2);
             this.combobox_CamList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.combobox_CamList.FormattingEnabled = true;
-            this.combobox_CamList.Location = new System.Drawing.Point(3, 23);
+            this.combobox_CamList.Location = new System.Drawing.Point(4, 25);
             this.combobox_CamList.Name = "combobox_CamList";
-            this.combobox_CamList.Size = new System.Drawing.Size(363, 20);
+            this.combobox_CamList.Size = new System.Drawing.Size(360, 20);
             this.combobox_CamList.TabIndex = 4;
             this.combobox_CamList.SelectedIndexChanged += new System.EventHandler(this.combobox_CamList_SelectedIndexChanged);
             // 
@@ -93,9 +93,9 @@
             // 
             this.pictureBox_Pic.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.pictureBox_Pic.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox_Pic.Location = new System.Drawing.Point(3, 27);
+            this.pictureBox_Pic.Location = new System.Drawing.Point(4, 29);
             this.pictureBox_Pic.Name = "pictureBox_Pic";
-            this.pictureBox_Pic.Size = new System.Drawing.Size(363, 364);
+            this.pictureBox_Pic.Size = new System.Drawing.Size(359, 364);
             this.pictureBox_Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox_Pic.TabIndex = 8;
             this.pictureBox_Pic.TabStop = false;
@@ -105,9 +105,9 @@
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Location = new System.Drawing.Point(4, 1);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(363, 24);
+            this.label1.Size = new System.Drawing.Size(359, 24);
             this.label1.TabIndex = 9;
             this.label1.Text = "Camera image (Live)";
             // 
@@ -116,49 +116,52 @@
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Location = new System.Drawing.Point(4, 1);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(363, 24);
+            this.label2.Size = new System.Drawing.Size(359, 24);
             this.label2.TabIndex = 10;
             this.label2.Text = "Grab image";
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox_Cam, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(369, 394);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(367, 392);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel2.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.pictureBox_Pic, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 403);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 403);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(369, 394);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(367, 393);
             this.tableLayoutPanel2.TabIndex = 12;
             // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -173,7 +176,7 @@
             this.tableLayoutPanel3.Controls.Add(this.button_Close_CV, 1, 3);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(378, 3);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(378, 4);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 6;
             this.tableLayoutPanel4.SetRowSpan(this.tableLayoutPanel3, 2);
@@ -183,16 +186,16 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(369, 794);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(368, 792);
             this.tableLayoutPanel3.TabIndex = 13;
             // 
             // button_Close_AForge
             // 
             this.button_Close_AForge.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button_Close_AForge.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Close_AForge.Location = new System.Drawing.Point(3, 239);
+            this.button_Close_AForge.Location = new System.Drawing.Point(4, 240);
             this.button_Close_AForge.Name = "button_Close_AForge";
-            this.button_Close_AForge.Size = new System.Drawing.Size(178, 180);
+            this.button_Close_AForge.Size = new System.Drawing.Size(176, 177);
             this.button_Close_AForge.TabIndex = 5;
             this.button_Close_AForge.Text = "Close_AForge";
             this.button_Close_AForge.UseVisualStyleBackColor = true;
@@ -202,9 +205,9 @@
             // 
             this.button_Save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button_Save.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Save.Location = new System.Drawing.Point(3, 611);
+            this.button_Save.Location = new System.Drawing.Point(4, 608);
             this.button_Save.Name = "button_Save";
-            this.button_Save.Size = new System.Drawing.Size(178, 180);
+            this.button_Save.Size = new System.Drawing.Size(176, 180);
             this.button_Save.TabIndex = 7;
             this.button_Save.Text = "Save";
             this.button_Save.UseVisualStyleBackColor = true;
@@ -214,9 +217,9 @@
             // 
             this.button_Grab.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button_Grab.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Grab.Location = new System.Drawing.Point(3, 425);
+            this.button_Grab.Location = new System.Drawing.Point(4, 424);
             this.button_Grab.Name = "button_Grab";
-            this.button_Grab.Size = new System.Drawing.Size(178, 180);
+            this.button_Grab.Size = new System.Drawing.Size(176, 177);
             this.button_Grab.TabIndex = 6;
             this.button_Grab.Text = "Grab";
             this.button_Grab.UseVisualStyleBackColor = true;
@@ -226,9 +229,9 @@
             // 
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Location = new System.Drawing.Point(4, 1);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(178, 20);
+            this.label3.Size = new System.Drawing.Size(176, 20);
             this.label3.TabIndex = 8;
             this.label3.Text = "AForge";
             // 
@@ -236,9 +239,9 @@
             // 
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label4.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label4.Location = new System.Drawing.Point(187, 0);
+            this.label4.Location = new System.Drawing.Point(187, 1);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(179, 20);
+            this.label4.Size = new System.Drawing.Size(177, 20);
             this.label4.TabIndex = 9;
             this.label4.Text = "OpenCV";
             // 
@@ -246,9 +249,9 @@
             // 
             this.button_Start_CV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button_Start_CV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Start_CV.Location = new System.Drawing.Point(187, 53);
+            this.button_Start_CV.Location = new System.Drawing.Point(187, 56);
             this.button_Start_CV.Name = "button_Start_CV";
-            this.button_Start_CV.Size = new System.Drawing.Size(179, 180);
+            this.button_Start_CV.Size = new System.Drawing.Size(177, 177);
             this.button_Start_CV.TabIndex = 10;
             this.button_Start_CV.Text = "Start_CV";
             this.button_Start_CV.UseVisualStyleBackColor = true;
@@ -258,9 +261,9 @@
             // 
             this.button_Close_CV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button_Close_CV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button_Close_CV.Location = new System.Drawing.Point(187, 239);
+            this.button_Close_CV.Location = new System.Drawing.Point(187, 240);
             this.button_Close_CV.Name = "button_Close_CV";
-            this.button_Close_CV.Size = new System.Drawing.Size(179, 180);
+            this.button_Close_CV.Size = new System.Drawing.Size(177, 177);
             this.button_Close_CV.TabIndex = 11;
             this.button_Close_CV.Text = "Close_CV";
             this.button_Close_CV.UseVisualStyleBackColor = true;
@@ -270,6 +273,7 @@
             // 
             this.tableLayoutPanel4.AutoSize = true;
             this.tableLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel4.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel4.ColumnCount = 2;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -288,7 +292,6 @@
             // 
             // timer_UI
             // 
-            this.timer_UI.Enabled = true;
             this.timer_UI.Interval = 5;
             this.timer_UI.Tick += new System.EventHandler(this.timer_UI_Tick);
             // 

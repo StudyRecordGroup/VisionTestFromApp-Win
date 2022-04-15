@@ -17,6 +17,7 @@ namespace WindowsFormsApp1
     {
         string imagePath { get; set; }
         ShowProgressImage m_showProgressImage = new ShowProgressImage();
+        bool isCalibrating = false;
 
         public Form2(CancellationToken cancelByUser)
         {
@@ -29,6 +30,8 @@ namespace WindowsFormsApp1
             trackBar_V_High.ValueChanged += TrackBar_ValueChanged;
             pictureBox_Source.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Source", true);
             pictureBox_Result.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Result", true);
+
+            timer_UI.Start();
         }
 
         private void TrackBar_ValueChanged(object sender, EventArgs e)
@@ -39,6 +42,8 @@ namespace WindowsFormsApp1
             label_S_High.Text = trackBar_S_High.Value.ToString();
             label_V_Low.Text = trackBar_V_Low.Value.ToString();
             label_V_High.Text = trackBar_V_High.Value.ToString();
+            if (isCalibrating)
+                imageProcess_Color();
         }
 
         private void button_OpenPhoto_Click(object sender, EventArgs e)
@@ -93,9 +98,27 @@ namespace WindowsFormsApp1
             m_showProgressImage.Image_Progress_Result = BitmapConverter.ToBitmap(dstImg);
         }
 
-        private void button_Progress_Canny_Click(object sender, EventArgs e)
+        private void button_Progress_Canny_Click_1(object sender, EventArgs e)
         {
             imageProcess_Canny();
+        }
+
+        private void button_Calibrate_Click(object sender, EventArgs e)
+        {
+            isCalibrating = !isCalibrating;
+        }
+
+        private void foolproof_UI()
+        {
+            button_Progress_Canny.Enabled = m_showProgressImage.Image_Progress_Source != null;
+            button_Calibrate.Enabled = m_showProgressImage.Image_Progress_Source != null;
+            tableLayoutPanel_Calibrate.Enabled = isCalibrating;
+            button_Calibrate.Text = isCalibrating ? "Stop Calibrate" : "Start Calibrate";
+        }
+
+        private void timer_UI_Tick(object sender, EventArgs e)
+        {
+            foolproof_UI();
         }
     }
 
