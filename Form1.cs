@@ -32,8 +32,8 @@ namespace WindowsFormsApp1
         BackgroundWorker m_worker;
         bool m_worderIsWorking = false;
         byte m_workModule = 0;
-        Bitmap image_Camera { get; set; }
-        Bitmap image_GrabPic { get; set; }
+        Image image_Camera { get; set; }
+        Image image_GrabPic { get; set; }
 
         public Form1(CancellationToken cancelByUser)
         {

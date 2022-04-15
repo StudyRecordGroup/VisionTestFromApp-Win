@@ -15,8 +15,8 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : UserControl
     {
-        Bitmap bitmapImage_Source { get; set; }
-        Bitmap bitmapImage_Result { get; set; }
+        Image bitmapImage_Source { get; set; }
+        Image bitmapImage_Result { get; set; }
         string imagePath { get; set; }
         int H_Low { get; set; }
         int H_High { get; set; }
@@ -28,6 +28,7 @@ namespace WindowsFormsApp1
         public Form2(CancellationToken cancelByUser)
         {
             InitializeComponent();
+            button_OpenPhoto.Click += button_OpenPhoto_Click;
             trackBar_H_Low.ValueChanged += TrackBar_ValueChanged;
             trackBar_H_High.ValueChanged += TrackBar_ValueChanged;
             trackBar_S_Low.ValueChanged += TrackBar_ValueChanged;
