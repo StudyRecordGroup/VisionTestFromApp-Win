@@ -18,44 +18,55 @@ namespace WindowsFormsApp1
         string imagePath { get; set; }
         ShowProgressImage m_showProgressImage = new ShowProgressImage();
         bool isCalibrating = false;
+        BackgroundWorker m_worker;
+        int H_Low { get; set; } = 100;
+        int H_High { get; set; } = 140;
+        int S_Low { get; set; } = 90;
+        int S_High { get; set; } = 255;
+        int V_Low { get; set; } = 90;
+        int V_High { get; set; } = 255;
 
         public Form2(CancellationToken cancelByUser)
         {
             InitializeComponent();
 
-            initialCalibratePanel();
-            pictureBox_Source.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Source", true);
-            pictureBox_Result.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Result", true);
-
-            timer_UI.Start();
-        }
-
-        private void initialCalibratePanel()
-        {
             trackBar_H_Low.ValueChanged += TrackBar_ValueChanged;
             trackBar_H_High.ValueChanged += TrackBar_ValueChanged;
             trackBar_S_Low.ValueChanged += TrackBar_ValueChanged;
             trackBar_S_High.ValueChanged += TrackBar_ValueChanged;
             trackBar_V_Low.ValueChanged += TrackBar_ValueChanged;
             trackBar_V_High.ValueChanged += TrackBar_ValueChanged;
-            label_H_Low.Text = trackBar_H_Low.Value.ToString();
-            label_H_High.Text = trackBar_H_High.Value.ToString();
-            label_S_Low.Text = trackBar_S_Low.Value.ToString();
-            label_S_High.Text = trackBar_S_High.Value.ToString();
-            label_V_Low.Text = trackBar_V_Low.Value.ToString();
-            label_V_High.Text = trackBar_V_High.Value.ToString();
+
+            label_H_Low.DataBindings.Add("Text", trackBar_H_Low, "Value");
+            label_H_High.DataBindings.Add("Text", trackBar_H_High, "Value");
+            label_S_Low.DataBindings.Add("Text", trackBar_S_Low, "Value");
+            label_S_High.DataBindings.Add("Text", trackBar_S_High, "Value");
+            label_V_Low.DataBindings.Add("Text", trackBar_V_Low, "Value");
+            label_V_High.DataBindings.Add("Text", trackBar_V_High, "Value");
+
+            pictureBox_Source.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Source", true);
+            pictureBox_Result.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Result", true);
+
+            m_worker = new BackgroundWorker() { WorkerSupportsCancellation = true };
+            timer_UI.Start();
+        }
+
+        private void M_worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (!m_worker.CancellationPending)
+            {
+                imageProcess_Color();
+            }
         }
 
         private void TrackBar_ValueChanged(object sender, EventArgs e)
         {
-            label_H_Low.Text = trackBar_H_Low.Value.ToString();
-            label_H_High.Text = trackBar_H_High.Value.ToString();
-            label_S_Low.Text = trackBar_S_Low.Value.ToString();
-            label_S_High.Text = trackBar_S_High.Value.ToString();
-            label_V_Low.Text = trackBar_V_Low.Value.ToString();
-            label_V_High.Text = trackBar_V_High.Value.ToString();
-            if (isCalibrating)
-                imageProcess_Color();
+            H_Low = trackBar_H_Low.Value;
+            H_High = trackBar_H_High.Value;
+            S_Low = trackBar_S_Low.Value;
+            S_High = trackBar_S_High.Value;
+            V_Low = trackBar_V_Low.Value;
+            V_High = trackBar_V_High.Value;
         }
 
         private void button_OpenPhoto_Click(object sender, EventArgs e)
@@ -87,7 +98,7 @@ namespace WindowsFormsApp1
             Cv2.CvtColor(srcImg, dstImg, ColorConversionCodes.RGB2HSV);
             Mat imgThresholded = new Mat();
 
-            Cv2.InRange(dstImg, new Scalar(trackBar_H_Low.Value, trackBar_S_Low.Value, trackBar_V_Low.Value), new Scalar(trackBar_H_High.Value, trackBar_S_High.Value, trackBar_V_High.Value), imgThresholded);
+            Cv2.InRange(dstImg, new Scalar(H_Low, S_Low, V_Low), new Scalar(H_High, S_High, V_High), imgThresholded);
             dstImg = new Mat(dstImg.Size(), dstImg.Type());
             for (int r = 0; r < dstImg.Rows; r++)
             {
@@ -119,7 +130,12 @@ namespace WindowsFormsApp1
         {
             isCalibrating = !isCalibrating;
             if (isCalibrating)
-                imageProcess_Color();
+            {
+                m_worker.DoWork += M_worker_DoWork;
+                m_worker.RunWorkerAsync();
+            }
+            else
+                m_worker.CancelAsync();
         }
 
         private void foolproof_UI()
