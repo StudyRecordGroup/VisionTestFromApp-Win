@@ -457,7 +457,7 @@
             this.button_Progress_Canny.TabIndex = 21;
             this.button_Progress_Canny.Text = "Progress Canny";
             this.button_Progress_Canny.UseVisualStyleBackColor = true;
-            this.button_Progress_Canny.Click += new System.EventHandler(this.button_Progress_Canny_Click_1);
+            this.button_Progress_Canny.Click += new System.EventHandler(this.button_Progress_Canny_Click);
             // 
             // button_Calibrate
             // 

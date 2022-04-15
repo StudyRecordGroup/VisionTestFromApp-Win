@@ -121,7 +121,7 @@ namespace WindowsFormsApp1
             m_showProgressImage.Image_Progress_Result = BitmapConverter.ToBitmap(dstImg);
         }
 
-        private void button_Progress_Canny_Click_1(object sender, EventArgs e)
+        private void button_Progress_Canny_Click(object sender, EventArgs e)
         {
             imageProcess_Canny();
         }
@@ -140,7 +140,7 @@ namespace WindowsFormsApp1
 
         private void foolproof_UI()
         {
-            button_Progress_Canny.Enabled = m_showProgressImage.Image_Progress_Source != null;
+            button_Progress_Canny.Enabled = m_showProgressImage.Image_Progress_Source != null & !isCalibrating;
             button_Calibrate.Enabled = m_showProgressImage.Image_Progress_Source != null;
             tableLayoutPanel_Calibrate.Enabled = isCalibrating;
             button_Calibrate.Text = isCalibrating ? "Stop Calibrate" : "Start Calibrate";
