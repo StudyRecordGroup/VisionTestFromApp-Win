@@ -68,48 +68,42 @@ namespace WindowsFormsApp1
                 return;
 
             imagePath = openFileDialog.FileName;
-            Mat srcImg = new Mat(imagePath, ImreadModes.Color);
-            m_showProgressImage.Image_Progress_Source = BitmapConverter.ToBitmap(srcImg);
+            m_showProgressImage.SrcImg = new Mat(imagePath, ImreadModes.Color);
+            m_showProgressImage.Image_Progress_Source = BitmapConverter.ToBitmap(m_showProgressImage.SrcImg);
         }
 
         private void imageProcess_Canny()
         {
-            Mat srcImg = new Mat(imagePath, ImreadModes.Color);
-            m_showProgressImage.Image_Progress_Source = BitmapConverter.ToBitmap(srcImg);
-            Mat dstImg = new Mat();
-            Cv2.Canny(srcImg, dstImg, 50, 200);  // 
-            m_showProgressImage.Image_Progress_Result = BitmapConverter.ToBitmap(dstImg);
+            Cv2.Canny(m_showProgressImage.SrcImg, m_showProgressImage.DstImg, 50, 200);
+            m_showProgressImage.Image_Progress_Result = BitmapConverter.ToBitmap(m_showProgressImage.DstImg);
         }
 
         private void imageProcess_Color()
         {
-            Mat srcImg = new Mat(imagePath, ImreadModes.Color);
-            m_showProgressImage.Image_Progress_Source = BitmapConverter.ToBitmap(srcImg);
-            Mat dstImg = new Mat();
-            Cv2.CvtColor(srcImg, dstImg, ColorConversionCodes.RGB2HSV);
+            Cv2.CvtColor(m_showProgressImage.SrcImg, m_showProgressImage.DstImg, ColorConversionCodes.RGB2HSV);
             Mat imgThresholded = new Mat();
 
-            Cv2.InRange(dstImg, new Scalar(H_Low, S_Low, V_Low), new Scalar(H_High, S_High, V_High), imgThresholded);
-            dstImg = new Mat(dstImg.Size(), dstImg.Type());
-            for (int r = 0; r < dstImg.Rows; r++)
+            Cv2.InRange(m_showProgressImage.DstImg, new Scalar(H_Low, S_Low, V_Low), new Scalar(H_High, S_High, V_High), imgThresholded);
+            m_showProgressImage.DstImg = new Mat(m_showProgressImage.DstImg.Size(), m_showProgressImage.DstImg.Type());
+            for (int r = 0; r < m_showProgressImage.DstImg.Rows; r++)
             {
-                for (int c = 0; c < dstImg.Cols; c++)
+                for (int c = 0; c < m_showProgressImage.DstImg.Cols; c++)
                 {
                     if (imgThresholded.At<byte>(r, c) == 255)
                     {
-                        Vec3b vec3B = dstImg.At<Vec3b>(r, c);
+                        Vec3b vec3B = m_showProgressImage.DstImg.At<Vec3b>(r, c);
                         if (vec3B.Item0 == 0 && vec3B.Item1 == 0 && vec3B.Item2 == 0)
                         {
                             vec3B.Item0 = 255;
                             vec3B.Item1 = 255;
                             vec3B.Item2 = 255;
                         }
-                        dstImg.Set<Vec3b>(r, c, vec3B);
+                        m_showProgressImage.DstImg.Set<Vec3b>(r, c, vec3B);
                     }
                 }
             }
 
-            m_showProgressImage.Image_Progress_Result = BitmapConverter.ToBitmap(dstImg);
+            m_showProgressImage.Image_Progress_Result = BitmapConverter.ToBitmap(m_showProgressImage.DstImg);
         }
 
         private void button_Progress_Canny_Click(object sender, EventArgs e)
@@ -149,7 +143,9 @@ namespace WindowsFormsApp1
 
     public class ShowProgressImage : INotifyPropertyChanged
     {
-        
+        public Mat SrcImg { get; set; } = new Mat();
+        public Mat DstImg { get; set; } = new Mat();
+
         private Image image_Progress_Source;
         private Image image_Progress_Result;
 
