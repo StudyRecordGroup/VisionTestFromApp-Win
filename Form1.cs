@@ -29,10 +29,8 @@ namespace WindowsFormsApp1
         #endregion
 
         int m_Cam_index { get; set; } = -1;
-        BackgroundWorker m_worker;
-        bool m_worderIsWorking = false;
-        byte m_workModule = 0;
         ShowImage m_showImage = new ShowImage();
+        Task m_videoTask;
 
         public Form1(CancellationToken cancelByUser)
         {
@@ -57,31 +55,20 @@ namespace WindowsFormsApp1
 
         private void finalDo()
         {
-            if(m_worker!=null)
-                m_worker.CancelAsync();
-            
-            switch (m_workModule)
-            {
-                case 1:
-                    if (AForge_videoCaptureDevice.IsRunning)
-                    {
-                        AForge_videoCaptureDevice?.Stop();
-                        AForge_videoCaptureDevice = null;
-                    }
-                    break;
-                case 2:
-                    if (OpenCV_videoCapture.IsOpened())
-                    {
-                        OpenCV_videoCapture.Release();
-                        OpenCV_videoCapture = null;
-                    }
-                break ;
-                default:
-                    break;
-            }
-            m_worderIsWorking = false;
-            m_workModule = 0;
-            //m_showImage.Image_Camera = null;
+            m_videoTask = null;
+            if (AForge_videoCaptureDevice != null)
+                if (AForge_videoCaptureDevice.IsRunning)
+                {
+                    AForge_videoCaptureDevice?.Stop();
+                    AForge_videoCaptureDevice = null;
+                }
+            if (OpenCV_videoCapture != null)
+                if (OpenCV_videoCapture.IsOpened())
+                {
+                    OpenCV_videoCapture.Release();
+                    OpenCV_videoCapture = null;
+                }
+            m_showImage.Image_Camera = null;
         }
 
         private void combobox_CamList_SelectedIndexChanged(object sender, EventArgs e)
@@ -93,43 +80,30 @@ namespace WindowsFormsApp1
         private void button_Start_AForge_Click(object sender, EventArgs e)
         {
             AForge_videoCaptureDevice = new VideoCaptureDevice(AForge_filterInfoCollection[combobox_CamList.SelectedIndex].MonikerString);
-            m_worker = new BackgroundWorker() { WorkerSupportsCancellation = true };
-            m_worker.DoWork += M_worker_DoWork_AForge;
-            m_worker.RunWorkerAsync();
-            m_worderIsWorking = true;
             AForge_videoCaptureDevice.Start();
+            m_videoTask = new Task(VideoAForge);
+            m_videoTask.Start();
         }
 
-        private void M_worker_DoWork_AForge(object sender, DoWorkEventArgs e)
+        void VideoAForge()
         {
-            m_workModule = 1;
             AForge_videoCaptureDevice.NewFrame += (s, eventArgs) =>
             {
                 m_showImage.Image_Camera = (Bitmap)eventArgs.Frame.Clone();
             };
-            //AForge_videoCaptureDevice.NewFrame += ViedoCaptureDecice_NewFrame;
         }
-
-        //private void ViedoCaptureDecice_NewFrame(object sender, NewFrameEventArgs eventArgs)
-        //{
-        //    image_Camera = (Bitmap)eventArgs.Frame.Clone();
-        //    pictureBox_Cam.Image = image_Camera;
-        //}
 
         private void button_Start_CV_Click(object sender, EventArgs e)
         {
             OpenCV_videoCapture = new VideoCapture();
             OpenCV_videoCapture.Open(combobox_CamList.Items.Count -1 - m_Cam_index); // becaues OpenCV camera's index is reverse of AForce FilterInfoCollection
-            m_worker = new BackgroundWorker() { WorkerSupportsCancellation = true };
-            m_worker.DoWork += M_worker_DoWork_OpenCV;
-            m_worderIsWorking = true;
-            m_worker.RunWorkerAsync();
+            m_videoTask = new Task(videoOpenCV);
+            m_videoTask.Start();
         }
 
-        private void M_worker_DoWork_OpenCV(object sender, DoWorkEventArgs e)
+        void videoOpenCV()
         {
-            m_workModule = 2;
-            while (!m_worker.CancellationPending)
+            while (m_videoTask!=null)
             {
                 Mat cFram = new Mat();
                 OpenCV_videoCapture.Read(cFram);
@@ -140,7 +114,6 @@ namespace WindowsFormsApp1
                 cFram.Release();
             }
         }
-
         private void button_Close_AForge_Click(object sender, EventArgs e)
         {
             finalDo();
@@ -171,11 +144,11 @@ namespace WindowsFormsApp1
 
         private void foolproof_UI()
         {
-            button_Start_AForge.Enabled = !m_worderIsWorking;
-            button_Start_CV.Enabled = !m_worderIsWorking;
-            button_Close_AForge.Enabled = m_worderIsWorking & (m_workModule == 1);
-            button_Close_CV.Enabled = m_worderIsWorking & (m_workModule == 2);
-            button_Grab.Enabled = m_worderIsWorking;
+            button_Start_AForge.Enabled = m_videoTask == null;
+            button_Start_CV.Enabled = m_videoTask == null;
+            button_Close_AForge.Enabled = m_videoTask!=null;
+            button_Close_CV.Enabled = m_videoTask != null;
+            button_Grab.Enabled = m_videoTask != null;
             button_Save.Enabled = m_showImage.Image_GrabPic == null ? false : true;
         }
 

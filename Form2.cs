@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
@@ -18,7 +19,6 @@ namespace WindowsFormsApp1
         string imagePath { get; set; }
         ShowProgressImage m_showProgressImage = new ShowProgressImage();
         bool isCalibrating = false;
-        BackgroundWorker m_worker;
         int H_Low { get; set; } = 100;
         int H_High { get; set; } = 140;
         int S_Low { get; set; } = 90;
@@ -47,16 +47,7 @@ namespace WindowsFormsApp1
             pictureBox_Source.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Source", true);
             pictureBox_Result.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Result", true);
 
-            m_worker = new BackgroundWorker() { WorkerSupportsCancellation = true };
             timer_UI.Start();
-        }
-
-        private void M_worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            while (!m_worker.CancellationPending)
-            {
-                imageProcess_Color();
-            }
         }
 
         private void TrackBar_ValueChanged(object sender, EventArgs e)
@@ -129,15 +120,19 @@ namespace WindowsFormsApp1
         private void button_Calibrate_Click(object sender, EventArgs e)
         {
             isCalibrating = !isCalibrating;
-            if (isCalibrating)
-            {
-                m_worker.DoWork += M_worker_DoWork;
-                m_worker.RunWorkerAsync();
-            }
-            else
-                m_worker.CancelAsync();
+            imageProgressTask();
         }
 
+        private Task imageProgressTask()
+        {
+            return Task.Run(() =>
+            {
+                while (isCalibrating)
+                {
+                    imageProcess_Color();
+                }
+            });
+        }
         private void foolproof_UI()
         {
             button_Progress_Canny.Enabled = m_showProgressImage.Image_Progress_Source != null & !isCalibrating;
