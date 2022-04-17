@@ -48,6 +48,7 @@ namespace WindowsFormsApp1
             pictureBox_Result.DataBindings.Add("Image", m_showProgressImage, "Image_Progress_Result", true);
 
             timer_UI.Start();
+            cancelByUser.Register(() => isCalibrating = false); 
         }
 
         private void TrackBar_ValueChanged(object sender, EventArgs e)
